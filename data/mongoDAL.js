@@ -4,16 +4,51 @@ const uri = "mongodb://localhost:27017";
 const dbName = "Test";
 const collectionName = "TheDataExpress";
 
-const findUser = async (key, value) => {
-    const client = await MongoClient.connect(uri);
+////////////////////////////////////////////////////////////////////////////////
 
+const updateUser = async (findKey, findValue, updateValue) => {
+    const client = await MongoClient.connect(uri);
+        
     try{
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
-        var query = {key: value};
+        var findQuery = {};
+        findQuery[findKey] = findValue;
 
-        var results = await collection.find(query).toArray();
+        var updateQuery = {};
+        updateQuery[findKey] = updateValue;
+
+        var results = await collection.updateOne(findQuery, {$set: updateQuery});
+
+        console.log("updateUser: results");
+        console.log(results);
+
+        return results;
+    }catch(err){
+        console.log("updateUser: Some error happened");
+        console.log(err);
+    }finally{
+        client.close();
+    }
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+const findUser = async (key, value) => {
+    const client = await MongoClient.connect(uri);
+        
+    try{
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+
+
+        var query = {};
+        query[key] = value;
+        console.log(query)
+
+        var results = await collection.findOne(query);
 
         console.log("findUser: results");
         console.log(results);
@@ -27,6 +62,8 @@ const findUser = async (key, value) => {
     }
 }
 
+//////////////////////////////////////////////////////////////////////////
+
 const addUser = async (username, password, email, age, questions) => {
     const client = await MongoClient.connect(uri);
 
@@ -34,16 +71,17 @@ const addUser = async (username, password, email, age, questions) => {
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
+        
         var newUser = {
             Username: username,
             Password: password, 
             Email: email,
             Age: age,
-            questions: {
-                1: question[0],
-                2: question[1],
-                3: question[2]
-            }
+            questions: [
+                questions[0],
+                questions[1],
+                questions[2]
+            ]
         }
     const result = await collection.insertOne(newUser);
 
@@ -57,5 +95,8 @@ const addUser = async (username, password, email, age, questions) => {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////
+
 exports.findUser = findUser;
 exports.addUser = addUser;
+exports.updateUser = updateUser;
