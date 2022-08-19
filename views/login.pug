@@ -1,0 +1,9 @@
+extends layout 
+
+block layout-content 
+    h1 Welcome to the Login Page
+    span(class="error") #{error}
+    form(action="/u/login", method="post")
+        input(type="text", name="username", placeholder="Username")
+        input(type="password", name="password", placeholder="Password")
+        input(type="submit", value="Login")

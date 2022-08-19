@@ -10,8 +10,10 @@
   "author": "Alexander Doerr",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
     "mongodb": "^4.8.1",
     "nodemon": "^2.0.19",
