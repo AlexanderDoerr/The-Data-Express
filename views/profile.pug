@@ -1,0 +1,20 @@
+extends layout 
+
+block layout-content 
+    h1 Welcome to the Profile Page
+    span(class="error") #{ErrorMessage}
+    form(action="/u/profile", method="post")
+        label(for="findKey") What would you like to update?
+        select(type="text", name="findKey")
+            option(value="Username") Username
+            option(value="Password") Password
+            option(value="Email") Email
+            option(value="Age") Age
+        br
+        label(for="findValue") What is the current value?
+        input(type="text", name="findValue")
+        br
+        label(for="updateValue") What is the new value?
+        input(type="text", name="updateValue")
+        br
+        input(type="submit", value="find")

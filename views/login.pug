@@ -2,7 +2,7 @@ extends layout
 
 block layout-content 
     h1 Welcome to the Login Page
-    span(class="error") #{error}
+    span(class="error") #{ErrorMessage}
     form(action="/u/login", method="post")
         input(type="text", name="username", placeholder="Username")
         input(type="password", name="password", placeholder="Password")

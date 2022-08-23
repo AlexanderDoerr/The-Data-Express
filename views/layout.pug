@@ -1,15 +1,22 @@
 html 
     head 
-    title The Data Express 
-    link(rel='stylesheet', href='/css/style.css')
-body 
-    header 
-        h1 The Data Express 
-        nav 
-            a(href='/') Home 
-            a(href='/login') Login 
-            a(href='/u/register') Register 
-    section(class="content")
-        block layout-content 
-    footer 
-        p Copyright &copy; The Data Express 2022
+        title The Data Express 
+        link(rel='stylesheet', href='/css/style.css')
+    body 
+        header 
+            h1(class="logo") The Data Express 
+            nav
+                ul(class='nav_links')
+                    li 
+                        a(href='/') Home 
+                    li
+                        a(href='/login') Login
+                    li     
+                        a(href='/u/register') Register 
+
+            a(class="cta" href='#')
+                button Contact
+        section(class="content")
+            block layout-content 
+        footer 
+            p Copyright &copy; The Data Express 2022

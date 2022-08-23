@@ -15,3 +15,8 @@ const go = async () => {
 }
 
 go();
+
+// How to get ObjectId from mongo object
+// const id = await dal.findUser('Username', 'JohnDoe') // id is a mongo ObjectId
+// console.log(id._id); //this is to grab the objectId from the mongo object
+

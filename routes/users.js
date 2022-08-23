@@ -19,28 +19,30 @@ router.post("/login", async (req, res) => {
     let username  = req.body.username;
     let password = req.body.password;
 
-    let user = await dal.findUser("Username", username);
+    var newLogin = await dal.findUser("Username", username);
 
-    if(await bcrypt.compare(password, user.Password)){
+
+    if(newLogin && await bcrypt.compare(password, newLogin.Password)){
         console.log(`${username} logged in`);
 
         let user = {
             username: username,
-            userId: 1, 
+            userId: newLogin._id, 
             isAdmin: false
         }
 
         req.session.user = user;
-        res.redirect("/");
+        res.redirect("profile");
     }else{
+        // Invalid Login!
         let model = {
-            error: "Invalid username or password",
+            ErrorMessage: "Invalid Login!",
             username: username,
             password: password
-    }
-        console.log(`${username} failed to login`);
+        };
+        console.log("Invalid login!");
         res.render("login", model);
-}
+    }
 })
 
 ////////////////////////////////////////////////////////////////////////////
@@ -49,6 +51,44 @@ router.get("/logout", async (req, res) => {
     req.session.destroy();
     res.redirect("/");
 } )
+
+////////////////////////////////////////////////////////////////////////////
+
+router.get("/profile", async (req, res) => {
+    let model = {
+        loggedInUser: req.session.user
+    };
+
+    res.render("profile", model);
+}
+)
+
+router.post("/profile", async (req, res) => {
+    let findKey = req.body.findKey;
+    let findValue = req.body.findValue;
+    let updateValue = req.body.updateValue;
+
+    if(findKey == "Password" && updateValue != ""){
+        updateValue = await bcrypt.hash(findValue, 10);
+    }
+
+    if(updateKey != ""){
+        console.log(`findKey: ${findKey}, findValue: ${findValue}, updateKey: ${updateKey}`);
+        var results = await dal.updateUser(findKey, findValue, updateValue);
+        res.redirect("/home");
+
+    }else{
+        let model = {
+            ErrorMessage: "Invalid Update!",
+            findKey: findKey,
+            findValue: findValue,
+            updateKey: updateKey
+        };
+        console.log("Invalid update!");
+        res.render("profile", model);
+    }
+})
+
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -80,10 +120,11 @@ router.post("/register", async (req, res) => {
         password: password,
         confirmPassword: confirmPassword
     }
-        res.render("register");
+        res.render("register", model);
     }
 }) 
 
 ///////////////////////////////////////////////////////////////////////////////
+
 
 module.exports = router;
