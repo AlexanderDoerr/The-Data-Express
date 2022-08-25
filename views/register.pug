@@ -1,27 +1,36 @@
 extends layout 
 
 block layout-content 
-    h1 Welcome to the Register Page
+    
     div(class="form-group")
-        span(class="error") #{error}
-        form(action="/u/register", method="post")
+        h1 Welcome to the Register Page
+        br
+        
+        span(class="error") #{ErrorMessage}
+        form(action="/u/register", method="post" class="register-form")
             label(for="username") Username
-            input(type="username", name="username", placeholder="Username")
+            br
+            input(type="text", name="username", placeholder="Username")
             br
             label(for="email") Email
+            br
             input(type="text", name="email", placeholder="Email")
             br
             label(for="age") Age
+            br
             input(type="number", name="age", placeholder="Age")
             br
             label(for="password") Password
+            br
             input(type="password", name="password", placeholder="Password")
             br
             label(for="password-confirm") Confirm Password
+            br
             input(type="password", name="confirmPassword", placeholder="Confirm Password")
             br
-
+            div(class="questions")
             label(for="question1") What is your favorite color?
+            br
             label(for="question1-1") Red
             input(type="radio", name="question1", value="red")
             label(for="question1-2") Blue
@@ -29,7 +38,9 @@ block layout-content
             label(for="question1-3") Green
             input(type="radio", name="question1", value="green")
             br
+            br
             label(for="question2") What is your favorite animal?
+            br
             label(for="question2-1") Dog
             input(type="radio", name="question2", value="dog")
             label(for="question2-2") Cat
@@ -37,7 +48,9 @@ block layout-content
             label(for="question2-3") Fish
             input(type="radio", name="question2", value="fish")
             br
+            br
             label(for="question3") What is your favorite food?
+            br
             label(for="question3-1") Pizza
             input(type="radio", name="question3", value="pizza")
             label(for="question3-2") Pasta
@@ -45,6 +58,5 @@ block layout-content
             label(for="question3-3") Sushi
             input(type="radio", name="question3", value="sushi")
             br
-
-            input(type="submit", value="Register")
+            input(type="submit", class="submit", value="Register")
             

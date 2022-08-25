@@ -6,20 +6,16 @@ const collectionName = "TheDataExpress";
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const updateUser = async (findKey, findValue, updateValue) => {
+const updateUser = async (findKey, updateValues) => {
     const client = await MongoClient.connect(uri);
         
     try{
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
-        var findQuery = {};
-        findQuery[findKey] = findValue;
+        const filter = {_id: new ObjectId(findKey)};
 
-        var updateQuery = {};
-        updateQuery[findKey] = updateValue;
-
-        var results = await collection.updateOne(findQuery, {$set: updateQuery});
+        var results = await collection.updateOne(filter, {$set: updateValues});
 
         console.log("updateUser: results");
         console.log(results);

@@ -2,8 +2,12 @@ console.log('It is born');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const port = 3000;
+
+app.use(cookieParser());
 
 const session = require('express-session');
 const sessionconfig = {

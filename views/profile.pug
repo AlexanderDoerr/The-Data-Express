@@ -1,20 +1,64 @@
 extends layout 
 
-block layout-content 
-    h1 Welcome to the Profile Page
-    span(class="error") #{ErrorMessage}
-    form(action="/u/profile", method="post")
-        label(for="findKey") What would you like to update?
-        select(type="text", name="findKey")
-            option(value="Username") Username
-            option(value="Password") Password
-            option(value="Email") Email
-            option(value="Age") Age
+block layout-content
+    div(class="form-group")
+        h1 Welcome to the Profile Page
         br
-        label(for="findValue") What is the current value?
-        input(type="text", name="findValue")
         br
-        label(for="updateValue") What is the new value?
-        input(type="text", name="updateValue")
-        br
-        input(type="submit", value="find")
+        span(class="error") #{ErrorMessage}
+        form(action="/u/profile", method="post" class="register-form")
+            label(for="username") Username
+            br
+            input(type="text", name="username" placeholder="Username" value=Username)
+            br
+            label(for="email") Email
+            br
+            input(type="text", name="email", placeholder="Email" value=Email)
+            br
+            label(for="age") Age
+            br
+            input(type="number", name="age", placeholder="Age" value=Age)
+            br
+            label(for="password") Password
+            br
+            input(type="password", name="password", placeholder="Password" value=Password)
+            br
+            label(for="confirmPassword") Confirm Password
+            br
+            input(type="password", name="confirmPassword", placeholder="Confirm Password" value=ConfirmPassword)
+            br
+            div(class="questions")
+            label(for="question1") What is your favorite color?
+            br
+            label(for="question1-1") Red
+            input(type="radio", name="question1", value="red" checked=question1=="red")
+            label(for="question1-2") Blue
+            input(type="radio", name="question1", value="blue" checked=question1=="blue")
+            label(for="question1-3") Green
+            input(type="radio", name="question1", value="green" checked=question1=="green")
+            br
+            br
+            label(for="question2") What is your favorite animal?
+            br
+            label(for="question2-1") Dog
+            input(type="radio", name="question2", value="dog" checked=question2=="dog")
+            label(for="question2-2") Cat
+            input(type="radio", name="question2", value="cat" checked=question2=="cat")
+            label(for="question2-3") Fish
+            input(type="radio", name="question2", value="fish" checked=question2=="fish")
+            br
+            br
+            label(for="question3") What is your favorite food?
+            br
+            label(for="question3-1") Pizza
+            input(type="radio", name="question3", value="pizza" checked=question3=="pizza")
+            label(for="question3-2") Pasta
+            input(type="radio", name="question3", value="pasta" checked=question3=="pasta")
+            label(for="question3-3") Sushi
+            input(type="radio", name="question3", value="sushi" checked=question3=="sushi")
+            br
+            input(type="submit", class="submit", value="Update")
+            
+            //- If user clicks logout button, redirect to login page
+            a(href="/u/logout" type="submit") Logout
+            br

@@ -19,20 +19,21 @@ router.post("/login", async (req, res) => {
     let username  = req.body.username;
     let password = req.body.password;
 
-    var newLogin = await dal.findUser("Username", username);
+    var userLogin = await dal.findUser("Username", username);
 
-
-    if(newLogin && await bcrypt.compare(password, newLogin.Password)){
+    if(userLogin && await bcrypt.compare(password, userLogin.Password)){
         console.log(`${username} logged in`);
 
         let user = {
             username: username,
-            userId: newLogin._id, 
+            userId: userLogin._id, 
             isAdmin: false
         }
+        console.log(`UserID: ${user.userId}`);
 
         req.session.user = user;
-        res.redirect("profile");
+        res.redirect("/u/profile");
+        // res.render("profile");
     }else{
         // Invalid Login!
         let model = {
@@ -48,47 +49,92 @@ router.post("/login", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////
 
 router.get("/logout", async (req, res) => {
-    req.session.destroy();
+    req.session.user = null;
     res.redirect("/");
 } )
 
 ////////////////////////////////////////////////////////////////////////////
 
 router.get("/profile", async (req, res) => {
+    let userInfo = await dal.findUser('Username', req.session.user.username);    
+
     let model = {
-        loggedInUser: req.session.user
+        loggedInUser: req.session.user,
+        Username: userInfo.Username,
+        Email: userInfo.Email,
+        Age: userInfo.Age,
+        Password: userInfo.Password,
+        ConfirmPassword: userInfo.Password,
+        question1: userInfo.questions[0],
+        question2: userInfo.questions[1],
+        question3: userInfo.questions[2],
     };
+
+    console.log(`This is the ID on the Profile.get : ${model.loggedInUser.userId}`);
 
     res.render("profile", model);
 }
 )
 
 router.post("/profile", async (req, res) => {
-    let findKey = req.body.findKey;
-    let findValue = req.body.findValue;
-    let updateValue = req.body.updateValue;
 
-    if(findKey == "Password" && updateValue != ""){
-        updateValue = await bcrypt.hash(findValue, 10);
-    }
+    const updateTheUser = async (infoToUpdate) => {
+        if(infoToUpdate.Username != '' && infoToUpdate.Password != '' && infoToUpdate.Email != '' && infoToUpdate.Age != ''){
+            await dal.updateUser(req.session.user.userId, infoToUpdate);
+            console.log('Successfully updated user');
+            res.redirect("/u/profile");
+        }else{
+            let model = {
+                ErrorMessage: "Please fill out all fields!",
+                Username: req.body.username,
+                Password: req.body.password,
+                ConfirmPassword: req.body.confirmPassword,
+                Email: req.body.email,
+                Age: req.body.age,
+                question1: req.body.question1,
+                question2: req.body.question2,
+                question3: req.body.question3,
+            };
+            res.render("profile", model);
+        }
+    };
+    
+    let userInfo = await dal.findUser('Username', req.session.user.username);
 
-    if(updateKey != ""){
-        console.log(`findKey: ${findKey}, findValue: ${findValue}, updateKey: ${updateKey}`);
-        var results = await dal.updateUser(findKey, findValue, updateValue);
-        res.redirect("/home");
+    let updateInfo = {
+        Username: req.body.username,
+        Password: req.body.password,
+        Email: req.body.email,
+        Age: req.body.age,
+        questions: [
+            req.body.question1,
+            req.body.question2,
+            req.body.question3
+        ]
+    };
 
-    }else{
-        let model = {
-            ErrorMessage: "Invalid Update!",
-            findKey: findKey,
-            findValue: findValue,
-            updateKey: updateKey
+    if(req.body.password != userInfo.Password && req.body.password == req.body.confirmPassword)
+    {
+        console.log('This hit the first if statement in the profile password get');
+        updateInfo.Password = await bcrypt.hash(req.body.password, 10);
+        updateTheUser(updateInfo);
+
+    } else if(req.body.password && req.body.confirmPassword == userInfo.Password)
+    {
+        console.log('This hit the second if statement in the profile password get');
+        updateInfo.Password = userInfo.Password;
+        updateTheUser(updateInfo);
+
+    }else 
+    {
+        console.log('This hit the final else statement in the profile password get');
+        model = {
+            ErrorMessage: "Passwords do not match!",
         };
-        console.log("Invalid update!");
         res.render("profile", model);
     }
+    
 })
-
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -110,12 +156,12 @@ router.post("/register", async (req, res) => {
 
     let hashedPassword = await bcrypt.hash(password, 10);
 
-    if(password == confirmPassword) {
+    if(password == confirmPassword && password != "" && username != "" && email != "" && age != "" && questions[0] != undefined && questions[1] != undefined && questions[2] != undefined){
     let result = await dal.addUser(username, hashedPassword, email, age, questions);
     res.redirect("/u/login");
     }else {
     let model = {
-        error: "Passwords do not match",
+        ErrorMessage: "Please Fill out the form completely!",
         username: username,
         password: password,
         confirmPassword: confirmPassword

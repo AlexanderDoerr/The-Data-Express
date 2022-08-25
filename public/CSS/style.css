@@ -4,8 +4,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #24252A;
-    color: #edf0f1
+    /* background-color: #24252A; */
+    /* color: #edf0f1 */
+    background-color: #4C3A51;
+    color: #E7AB79;
 }
 
 li, a, button {
@@ -55,4 +57,149 @@ button {
 
 button:hover {
     background-color: rgba(0, 136, 169, 0.8);
+}
+
+section{
+    
+    height: 90vh;
+    
+    position: relative;
+}
+
+.container{
+    /* border: 10px solid #ffffff;
+    border-radius: 20%; */
+    max-width: 700px;
+    width: 100%;
+
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    background-color: #4C3A51;
+}
+
+
+/* this is for the buttons */
+input[type=submit] {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    color: #edf0f1;
+}
+
+input[type=submit]:hover {
+    background-color: rgba(0, 136, 169, 0.8);
+}
+
+/* This is for the forms */
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+    border: 2px solid #B25068;
+    border-radius: 4px;
+}
+
+input[type=text]:focus {
+    background-color: #774360;
+}
+
+input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+    border: 2px solid #B25068;
+    border-radius: 4px;
+}
+
+input[type=number]:focus {
+    background-color: #774360;
+}
+
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+    border: 2px solid #B25068;
+    border-radius: 4px;
+}
+
+input[type=password]:focus {
+    background-color: #774360;
+}
+
+
+input[type=password-confirm] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+
+    border: 2px solid #B25068;
+    border-radius: 4px;
+}
+
+input[type=password-confirm]:focus {
+    background-color: #774360;
+}
+
+/* This is for the radio buttons */
+
+input[type=radio] {
+    margin: 0 10px 0 10px;
+}
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+
+    
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #ffa500;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+}
+
+.question1 {
+    
+
+    border: 2px solid #B25068;
+    border-radius: 4px;
 }

@@ -9,14 +9,19 @@ html
                 ul(class='nav_links')
                     li 
                         a(href='/') Home 
-                    li
-                        a(href='/login') Login
+                    if(loggedInUser)
+                        li 
+                            a(href='/u/profile') Profile 
+                    else
+                        li 
+                            a(href='/u/login') Login
                     li     
                         a(href='/u/register') Register 
 
             a(class="cta" href='#')
                 button Contact
         section(class="content")
-            block layout-content 
+            div(class="container")
+                block layout-content 
         footer 
-            p Copyright &copy; The Data Express 2022
+            p Copyright &copy; The Data Express 2022 #{lastVisit}
