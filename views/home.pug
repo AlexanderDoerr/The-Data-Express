@@ -1,4 +1,8 @@
 extends layout 
 
 block layout-content 
+    script(src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js")
+    span(class="error") #{ErrorMessage}
     h1 Welcome to the Home Page
+    canvas(id="myChart" width="400" height="400")
+    script(src="/js/site.js")

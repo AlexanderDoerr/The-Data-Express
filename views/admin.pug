@@ -1,0 +1,14 @@
+extends layout 
+
+block layout-content 
+    div(class="form-group")
+        h1 Welcome to the Admin Page
+        span(class="error") #{ErrorMessage}
+        //- Make a select tag to enable the user to select a user to edit or delete
+        form(action="/u/admin", method="post") 
+            select(class="form-control" id="userSelect" name="selection")
+                option(value="delete") Delete User
+                option(value="changeAdmin") Change Admin Status
+            input(type="text", name="findUsername" placeholder="Username")
+            br
+            input(type="submit", class="submit", value="Find User")

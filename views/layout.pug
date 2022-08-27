@@ -15,8 +15,11 @@ html
                     else
                         li 
                             a(href='/u/login') Login
-                    li     
-                        a(href='/u/register') Register 
+                        li     
+                            a(href='/u/register') Register 
+                    if(isAdmin == true)    
+                        li  
+                            a(href='/u/admin') Admin
 
             a(class="cta" href='#')
                 button Contact

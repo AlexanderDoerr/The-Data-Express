@@ -30,6 +30,32 @@ const updateUser = async (findKey, updateValues) => {
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+const updateUserAdmin = async (findKey, updateValues) => {
+    const client = await MongoClient.connect(uri);
+        
+    try{
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+
+        const filter = {Username: findKey};
+
+        var results = await collection.updateOne(filter, {$set: updateValues});
+
+        console.log("updateUserAdmin: results");
+        console.log(results);
+
+        return results;
+    }catch(err){
+        console.log("updateUserAdmin: Some error happened");
+        console.log(err);
+    }finally{
+        client.close();
+    }
+
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 
 const findUser = async (key, value) => {
@@ -60,7 +86,7 @@ const findUser = async (key, value) => {
 
 //////////////////////////////////////////////////////////////////////////
 
-const addUser = async (username, password, email, age, questions) => {
+const addUser = async (username, password, email, age, admin, questions) => {
     const client = await MongoClient.connect(uri);
 
     try{
@@ -73,6 +99,7 @@ const addUser = async (username, password, email, age, questions) => {
             Password: password, 
             Email: email,
             Age: age,
+            Admin: admin,
             questions: [
                 questions[0],
                 questions[1],
@@ -93,6 +120,50 @@ const addUser = async (username, password, email, age, questions) => {
 
 ///////////////////////////////////////////////////////////////////////////
 
+const findQuestions = async () => {
+    const client = await MongoClient.connect(uri);
+
+    try{
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        
+        var query = {questions: {$exists: true}};
+        var results = await collection.find(query).toArray();
+
+        return results;
+    }catch(err){
+        console.log("findQuestions: Some error happened");
+        console.log(err);
+    }finally{
+        client.close();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+// find and delete a user
+const deleteUser = async (findKey) => {
+    const client = await MongoClient.connect(uri);
+
+    try{
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        
+        var query = {Username: findKey};
+        var results = await collection.deleteOne(query);
+
+        return results;
+    }catch(err){
+        console.log("deleteUser: Some error happened");
+        console.log(err);
+    }finally{
+        client.close();
+    }
+}
+
 exports.findUser = findUser;
 exports.addUser = addUser;
 exports.updateUser = updateUser;
+exports.findQuestions = findQuestions;
+exports.deleteUser = deleteUser;
+exports.updateUserAdmin = updateUserAdmin;

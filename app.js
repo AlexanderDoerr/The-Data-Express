@@ -29,6 +29,9 @@ app.use('', indexRouter);
 const usersRouter = require('./routes/users');
 app.use('/u', usersRouter);
 
+const apiRouter = require("./routes/api");
+app.use('/api', apiRouter);
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 } );
